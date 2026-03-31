@@ -1,0 +1,63 @@
+name: Bai5 Allure Report (CI)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'bai5/**'
+      - '.github/workflows/bai5-allure.yml'
+  workflow_dispatch:
+
+jobs:
+  allure-tests:
+    name: Run Tests & Generate Allure Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Run Tests (with Allure results)
+        working-directory: bai5
+        run: mvn clean test -Dbrowser=chrome
+
+      - name: Generate Allure HTML Report
+        working-directory: bai5
+        run: mvn allure:report
+        if: always()
+
+      - name: Upload Allure Results (raw JSON)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: bai5/target/allure-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload Allure HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: bai5/target/allure-report/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload Surefire Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: bai5/target/surefire-reports/
+          if-no-files-found: ignore
+          retention-days: 14

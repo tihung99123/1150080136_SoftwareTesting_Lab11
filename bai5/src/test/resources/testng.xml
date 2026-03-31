@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<!--
+    Bài 5 - TestNG Suite với Allure Listener
+    - ScreenshotOnFailureListener: tự động đính ảnh PNG vào Allure khi test FAIL
+    - parallel="methods" thread-count="2": 2 test chạy song song
+    - Chạy: mvn clean test -f bai5/pom.xml
+    - Xem report: mvn allure:serve -f bai5/pom.xml
+-->
+<suite name="Bai5 - Allure Report Suite" verbose="1" parallel="methods" thread-count="2">
+
+    <!-- Đăng ký ScreenshotOnFailureListener -->
+    <listeners>
+        <listener class-name="com.lab9.bai5.ScreenshotOnFailureListener"/>
+    </listeners>
+
+    <test name="Login Tests">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.lab9.bai5.LoginTest"/>
+        </classes>
+    </test>
+
+    <test name="Cart Tests">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.lab9.bai5.CartTest"/>
+        </classes>
+    </test>
+
+</suite>
