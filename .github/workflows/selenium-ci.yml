@@ -1,0 +1,37 @@
+name: Selenium CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Run Selenium smoke tests
+        run: mvn test -f 1150080136_LeQuocHung_ST_Buoi9/bai7/pom.xml -Dbrowser=chrome -Denv=dev -DsuiteXmlFile=testng-smoke.xml
+
+      - name: Upload test artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-test-artifacts
+          path: |
+            1150080136_LeQuocHung_ST_Buoi9/bai7/target/surefire-reports/
+            1150080136_LeQuocHung_ST_Buoi9/bai7/target/screenshots/
+          if-no-files-found: ignore
+          retention-days: 7
