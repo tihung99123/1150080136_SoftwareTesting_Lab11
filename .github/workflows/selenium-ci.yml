@@ -10,6 +10,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox]
 
     steps:
       - name: Checkout repository
@@ -23,15 +27,15 @@ jobs:
           cache: maven
 
       - name: Run Selenium smoke tests
-        run: mvn test -f 1150080136_LeQuocHung_ST_Buoi9/pom.xml -Dbrowser=chrome -Denv=dev -DsuiteXmlFile=testng-smoke.xml
+        run: mvn test -f bai2/pom.xml -Dbrowser=${{ matrix.browser }} -Denv=dev -DsuiteXmlFile=testng-smoke.xml
 
       - name: Upload test artifacts on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: selenium-test-artifacts
+          name: test-results-${{ matrix.browser }}
           path: |
-            1150080136_LeQuocHung_ST_Buoi9/**/target/surefire-reports/
-            1150080136_LeQuocHung_ST_Buoi9/**/target/screenshots/
+            bai2/target/surefire-reports/
+            bai2/target/screenshots/
           if-no-files-found: ignore
           retention-days: 7
