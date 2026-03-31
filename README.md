@@ -7,6 +7,7 @@ This repository contains the full Lab 9 Maven multi-module Selenium project.
 - `1150080136_LeQuocHung_ST_Buoi9/` is the Lab 9 parent project.
 - `bai1` to `bai7` contain the separate exercise modules from the lab.
 - `bai2/` is the standalone folder used by the GitHub Actions matrix pipeline.
+- `bai3/` is the standalone folder used by the GitHub Secrets pipeline.
 
 ## Run locally
 
@@ -14,6 +15,12 @@ To run the CI smoke suite locally:
 
 ```bash
 mvn test -f bai2/pom.xml -Dbrowser=chrome -Denv=dev -DsuiteXmlFile=testng-smoke.xml
+```
+
+For Bai 3, copy the values from `bai3/.env.example` into your environment and run:
+
+```bash
+mvn test -f bai3/pom.xml -Dbrowser=chrome -Denv=dev -DsuiteXmlFile=testng-smoke.xml
 ```
 
 You can also run a specific module directly, for example:
@@ -30,3 +37,5 @@ It uploads these artifacts when tests fail:
 
 - `bai2/target/surefire-reports/`
 - `bai2/target/screenshots/`
+
+The Bai 3 workflow at `.github/workflows/bai3-secrets.yml` reads GitHub Secrets and echoes the password env to verify masking.

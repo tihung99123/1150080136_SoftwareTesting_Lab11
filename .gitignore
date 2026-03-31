@@ -1,5 +1,8 @@
 **/target/
 **/screenshots/
+.env
+**/.env
+bai3/src/test/resources/testdata/login_data.xlsx
 .idea/
 *.iml
 .vscode/
