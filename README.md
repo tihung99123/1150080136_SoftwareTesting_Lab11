@@ -1,13 +1,13 @@
 # Lab 9 Selenium Framework
 
-This repository contains the full Lab 9 Maven multi-module Selenium project.
+This repository contains the Lab 9 Selenium exercise folders used in this workspace.
 
 ## Project layout
 
-- `1150080136_LeQuocHung_ST_Buoi9/` is the Lab 9 parent project.
 - `bai1` to `bai7` contain the separate exercise modules from the lab.
 - `bai2/` is the standalone folder used by the GitHub Actions matrix pipeline.
 - `bai3/` is the standalone folder used by the GitHub Secrets pipeline.
+- `bai4/` is the standalone folder used for Selenium Grid with Docker.
 
 ## Run locally
 
@@ -21,6 +21,13 @@ For Bai 3, copy the values from `bai3/.env.example` into your environment and ru
 
 ```bash
 mvn test -f bai3/pom.xml -Dbrowser=chrome -Denv=dev -DsuiteXmlFile=testng-smoke.xml
+```
+
+For Bai 4, start Selenium Grid first and then run the grid suite:
+
+```bash
+docker compose -f bai4/docker-compose.yml up -d
+mvn test -f bai4/pom.xml -Dgrid.url=http://localhost:4444 -DsuiteXmlFile=testng-grid.xml
 ```
 
 You can also run a specific module directly, for example:
