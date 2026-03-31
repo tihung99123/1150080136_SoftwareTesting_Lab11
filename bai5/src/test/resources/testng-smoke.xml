@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<!--
+    Bài 5 / Bài 6 - Smoke Test Suite cho CI pipeline
+    Được dùng bởi selenium-full.yml với -DsuiteXmlFile=testng-smoke.xml
+    Browser được truyền qua -Dbrowser=${matrix.browser}
+-->
+<suite name="Bai5 - Smoke Suite" verbose="1" parallel="methods" thread-count="2">
+
+    <listeners>
+        <listener class-name="com.lab9.bai5.ScreenshotOnFailureListener"/>
+    </listeners>
+
+    <test name="Login Smoke Tests">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.lab9.bai5.LoginTest"/>
+        </classes>
+    </test>
+
+    <test name="Cart Smoke Tests">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.lab9.bai5.CartTest"/>
+        </classes>
+    </test>
+
+</suite>
