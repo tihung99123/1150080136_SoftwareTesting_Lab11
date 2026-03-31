@@ -56,7 +56,12 @@ public class CartPage extends BasePage {
             List<WebElement> removeBtns = new WebDriverWait(driver, Duration.ofSeconds(5))
                     .until(ExpectedConditions.presenceOfAllElementsLocatedBy(REMOVE_BUTTONS));
             if (!removeBtns.isEmpty()) {
+                int currentCount = getItemCount();
                 removeBtns.get(0).click();
+                if (currentCount > 0) {
+                    new WebDriverWait(driver, Duration.ofSeconds(5))
+                            .until(ExpectedConditions.numberOfElementsToBe(CART_ITEMS, currentCount - 1));
+                }
             }
         } catch (Exception e) {
             System.out.println("[CartPage] removeFirstItem: Giỏ trống, không có item để xóa.");
