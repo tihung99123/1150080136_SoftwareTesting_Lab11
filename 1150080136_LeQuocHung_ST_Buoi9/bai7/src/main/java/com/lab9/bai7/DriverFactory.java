@@ -47,7 +47,6 @@ public final class DriverFactory {
     }
 
     private static boolean isCi() {
-        return Boolean.parseBoolean(System.getenv().getOrDefault("CI", "false"))
-                || Boolean.parseBoolean(System.getenv().getOrDefault("GITHUB_ACTIONS", "false"));
+        return Boolean.parseBoolean(System.getenv().getOrDefault("CI", "false"));
     }
 }
