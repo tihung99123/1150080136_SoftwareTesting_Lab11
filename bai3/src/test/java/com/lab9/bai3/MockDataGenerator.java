@@ -64,7 +64,7 @@ public class MockDataGenerator {
                     "B04 - Mã độc XSS nhúng thử qua input fields.");
 
             // Ghi file
-            File dirs = new File("src/test/resources/testdata");
+            File dirs = resolveTestDataDirectory();
             if (!dirs.exists())
                 dirs.mkdirs();
 
@@ -77,6 +77,14 @@ public class MockDataGenerator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static File resolveTestDataDirectory() {
+        if (new File("bai3/src/test/resources").isDirectory()) {
+            return new File("bai3/target/test-classes/testdata");
+        }
+
+        return new File("target/test-classes/testdata");
     }
 
     private static void writeHeader(Sheet sheet, String... titles) {
